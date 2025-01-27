@@ -1,0 +1,53 @@
+<div class="max-w-2xl mx-auto">
+    <form action="/inventory/<%= inventory._id %>?_method=PUT" method="POST"
+        class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                Nome
+            </label>
+            <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="name" type="text" name="name" required value="<%= inventory.name %>">
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="count">
+                Quantidade
+            </label>
+            <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="count" type="number" name="count" required value="<%= inventory.count %>">
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="countMin">
+                Quantidade Minima
+            </label>
+            <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="countMin" type="number" name="countMin" required value="<%= inventory.countMin %>">
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="category">
+                Categoria
+            </label>
+            <select
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="category" name="category" required>
+                <option value=""></option>
+                <option value="BEBIDAS" <% if(inventory.category==='BEBIDAS' ) { %> selected <% } %>>BEBIDAS</option>
+                <option value="INSUMOS" <% if(inventory.category==='INSUMOS' ) { %> selected <% } %>>INSUMOS</option>
+                <option value="PRODUTO DE LIMPEZA" <% if(inventory.category==='PRODUTO DE LIMPEZA' ) { %> selected <% }
+                        %>>PRODUTO DE LIMPEZA</option>
+                <option value="OUTROS" <% if(inventory.category==='OUTROS' ) { %> selected <% } %>>OUTROS</option>
+            </select>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="text-indigo-600 hover:text-indigo-900"
+                aria-label="Salvar produto">Salvar</button>
+            <a href="/inventory" class="text-blue-500 hover:text-blue-800">Cancelar</a>
+        </div>
+    </form>
+</div>
