@@ -10,7 +10,7 @@
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="count">
                 Quantidade
             </label>
             <input
@@ -19,7 +19,16 @@
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="countMin">
+                Quantidade Minima
+            </label>
+            <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="countMin" type="number" name="countMin" required>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="category">
                 Categoria
             </label>
             <select
@@ -38,7 +47,6 @@
                 type="submit">
                 Salvar
             </button>
-            <a href="/products" class="text-blue-500 hover:text-blue-800">Cancelar</a>
         </div>
     </form>
 </div>
