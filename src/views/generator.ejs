@@ -1,0 +1,171 @@
+<div class="space-y-2 mb-4">
+    <a href="/generator/details" class="block text-blue-600 hover:text-blue-800">Ver relatórios →</a>
+</div>
+
+<div class="mb-5">
+    <!-- Inputs para pedidos -->
+    <div class="mb-4">
+        <label for="pedidosRetiradaCheckbox" class="block mb-1">Houve pedidos para Retirada?</label>
+        <input type="checkbox" id="pedidosRetiradaCheckbox" onclick="toggleInput('pedidosRetirada')">
+        <input type="number" id="pedidosRetirada" placeholder="Pedidos para Retirada" class="hidden mb-2 p-1 border">
+    </div>
+
+    <div class="mb-4">
+        <label for="pedidosCampinaCheckbox" class="block mb-1">Houve pedidos para Campina?</label>
+        <input type="checkbox" id="pedidosCampinaCheckbox" onclick="toggleInput('pedidosCampina')">
+        <input type="number" id="pedidosCampina" placeholder="Pedidos para Campina" class="hidden mb-2 p-1 border">
+    </div>
+
+    <div class="mb-4">
+        <label for="pedidosLagoaSecaCheckbox" class="block mb-1">Houve pedidos para Lagoa Seca?</label>
+        <input type="checkbox" id="pedidosLagoaSecaCheckbox" onclick="toggleInput('pedidosLagoaSeca')">
+        <input type="number" id="pedidosLagoaSeca" placeholder="Pedidos para Lagoa Seca" class="hidden mb-2 p-1 border">
+    </div>
+
+    <div class="mb-4">
+        <label for="pedidosCondominioCheckbox" class="block mb-1">Houve pedidos para Condomínio?</label>
+        <input type="checkbox" id="pedidosCondominioCheckbox" onclick="toggleInput('pedidosCondominio')">
+        <input type="number" id="pedidosCondominio" placeholder="Pedidos para Condomínio"
+            class="hidden mb-2 p-1 border">
+    </div>
+
+    <div class="mb-4">
+        <label for="pedidosCanceladoCheckbox" class="block mb-1">Houve pedidos para Cancelados?</label>
+        <input type="checkbox" id="pedidosCanceladosCheckbox" onclick="toggleInput('pedidosCancelados')">
+        <input type="number" id="pedidosCancelados" placeholder="Pedidos para Cancelados"
+            class="hidden mb-2 p-1 border">
+    </div>
+
+    <!-- Inputs para valores pagos -->
+    <label for="valorDinheiro" class="block mb-1">Valor Pago em Dinheiro:</label>
+    <input type="text" id="valorDinheiro" placeholder="Valor em dinheiro" oninput="formatarMoeda(this)"
+        class="mb-2 p-1 border" required>
+
+    <label for="valorCartao" class="block mb-1">Valor Pago em Cartão:</label>
+    <input type="text" id="valorCartao" placeholder="Valor em cartão" oninput="formatarMoeda(this)"
+        class="mb-2 p-1 border" required>
+
+    <label for="valorPix" class="block mb-1">Valor Pago em Pix:</label>
+    <input type="text" id="valorPix" placeholder="Valor em pix" oninput="formatarMoeda(this)" class="mb-2 p-1 border"
+        required>
+
+    <label for="valorOnline" class="block mb-1">Valor Pago em Pagamento Online (iFood):</label>
+    <input type="text" id="valorOnline" placeholder="Valor em pagamento online (iFood)" oninput="formatarMoeda(this)"
+        class="mb-2 p-1 border" required>
+
+    <button onclick="gerarRelatorio()" class="mt-4 p-2 bg-blue-500 text-white rounded">Gerar Relatório</button>
+</div>
+
+<blockquote id="relatorioMovimento" class="border-l-4 border-gray-300 pl-4 italic bg-gray-100 p-4 mt-4">
+</blockquote>
+<blockquote id="relatorioCaixa" class="border-l-4 border-gray-300 pl-4 italic bg-gray-100 p-4 mt-4"></blockquote>
+
+<script>
+    // Função para mostrar/ocultar os inputs com base no checkbox
+    function toggleInput(inputId) {
+        const checkbox = document.getElementById(inputId + 'Checkbox');
+        const input = document.getElementById(inputId);
+        input.classList.toggle('hidden', !checkbox.checked);
+    }
+
+    // Função para formatar os valores como moeda
+    function formatarMoeda(input) {
+        let valor = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+        valor = (valor / 100).toFixed(2) + ''; // Converte para decimal com 2 casas
+        valor = valor.replace(".", ","); // Substitui ponto por vírgula
+        valor = valor.replace(/(\d)(?=(\d{3})+(\,|$))/g, '$1.') // Adiciona o ponto como separador de milhar
+        input.value = valor;
+    }
+
+    // Função para gerar o relatório
+    function gerarRelatorio() {
+        // Obter os valores dos inputs e remover a vírgula
+        const pedidosRetirada = parseInt(document.getElementById('pedidosRetirada').value) || 0;
+        const pedidosCampina = parseInt(document.getElementById('pedidosCampina').value) || 0;
+        const pedidosLagoaSeca = parseInt(document.getElementById('pedidosLagoaSeca').value) || 0;
+        const pedidosCondominio = parseInt(document.getElementById('pedidosCondominio').value) || 0;
+        const pedidosCancelados = parseInt(document.getElementById('pedidosCancelados').value) || 0;
+
+        const valorDinheiro = parseFloat(document.getElementById('valorDinheiro').value.replace(/\./g, '').replace(',', '.')) || 0;
+        const valorCartao = parseFloat(document.getElementById('valorCartao').value.replace(/\./g, '').replace(',', '.')) || 0;
+        const valorPix = parseFloat(document.getElementById('valorPix').value.replace(/\./g, '').replace(',', '.')) || 0;
+        const valorOnline = parseFloat(document.getElementById('valorOnline').value.replace(/\./g, '').replace(',', '.')) || 0;
+
+        // Obter a data e hora atual
+        const agora = new Date();
+        const dataHora = agora.toLocaleString('pt-BR', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: false
+        });
+
+        // Calcular o número total de pedidos
+        let numeroPedidos = pedidosRetirada + pedidosCampina + pedidosLagoaSeca + pedidosCondominio;
+
+        // Montar o Relatório de Movimento
+        let relatorioMovimento = `Relatório de Movimento\n`;
+        relatorioMovimento += `${dataHora}\n-------------------------------`;
+        relatorioMovimento += `\n- *Total de Pedidos: ${numeroPedidos}*`;
+        if (pedidosRetirada > 0) relatorioMovimento += `\n- Pedidos para Retirada: ${pedidosRetirada}`;
+        if (pedidosCampina > 0) relatorioMovimento += `\n- Pedidos para Campina Grande: ${pedidosCampina}`;
+        if (pedidosLagoaSeca > 0) relatorioMovimento += `\n- Pedidos para Lagoa Seca: ${pedidosLagoaSeca}`;
+        if (pedidosCondominio > 0) relatorioMovimento += `\n- Pedidos para Condomínio: ${pedidosCondominio}`;
+        if (pedidosCondominio > 0) relatorioMovimento += `\n- Pedidos Cancelados: ${pedidosCancelados}`;
+
+        // Exibir o Relatório de Movimento
+        document.getElementById('relatorioMovimento').textContent = relatorioMovimento;
+
+        // Montar o Relatório de Caixa
+        let relatorioCaixa = `Relatório de Caixa\n`;
+        relatorioCaixa += `${dataHora}\n-------------------------------`;
+        relatorioCaixa += `\n- *Total de Pedidos: ${numeroPedidos}*`;
+        relatorioCaixa += `\n- *Total Recebido: R$ ${(valorPix + valorCartao + valorOnline + valorDinheiro).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}*`;
+
+        if (valorDinheiro > 0) {
+            relatorioCaixa += `\n- Valor Pago em Dinheiro: R$ ${valorDinheiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+        if (valorCartao > 0) {
+            relatorioCaixa += `\n- Valor Pago em Cartão: R$ ${valorCartao.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+        if (valorPix > 0) {
+            relatorioCaixa += `\n- Valor Pago em Pix: R$ ${valorPix.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+        if (valorOnline > 0) {
+            relatorioCaixa += `\n- Valor Pago em Pagamento Online (iFood): R$ ${valorOnline.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        // Exibir o Relatório de Caixa
+        document.getElementById('relatorioCaixa').textContent = relatorioCaixa;
+
+        // Remover botões de WhatsApp antigos
+        const existingButtons = document.querySelectorAll('.whatsapp-btn');
+        existingButtons.forEach(button => button.remove());
+
+        // Criar o botão do WhatsApp para Relatório de Movimento
+        criarBotaoWhatsapp(relatorioMovimento, 'Movimento');
+
+        // Criar o botão do WhatsApp para Relatório de Caixa
+        criarBotaoWhatsapp(relatorioCaixa, 'Caixa');
+    }
+
+    // Função para criar os botões de WhatsApp
+    function criarBotaoWhatsapp(mensagem, tipo) {
+        const link = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+        const botao = document.createElement('a');
+        botao.href = link;
+        botao.target = "_blank";
+        botao.textContent = `Enviar Relatório de ${tipo} para o WhatsApp`;
+        botao.classList.add('whatsapp-btn', 'inline-block', 'mt-4', 'p-2', 'bg-green-500', 'text-white', 'rounded');
+        const main = document.querySelector('main');
+        if (main) {
+            main.appendChild(botao);
+        } else {
+            document.body.appendChild(botao);
+        }
+    }
+</script>

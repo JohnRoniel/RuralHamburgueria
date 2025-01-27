@@ -43,6 +43,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/', require('./routes/index'));
+app.use('/generator', require('./routes/generator'));
 app.use('/inventory', require('./routes/inventory'));
 
 app.listen(PORT, () => {
