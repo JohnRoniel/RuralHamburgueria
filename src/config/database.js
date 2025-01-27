@@ -5,10 +5,7 @@ const mongoose = require('mongoose');
 async function database() {
     try {
         // Conectar ao MongoDB usando a URL do banco de dados
-        const conn = await mongoose.connect(process.env.MONGODB_URI , {
-            useNewUrlParser: true,
-            useUnifiedTopology: false,
-        });
+        const conn = await mongoose.connect(process.env.MONGODB_URI);
 
         console.log(`MongoDB conectado: ${conn.connection.host}`);
     } catch (error) {
