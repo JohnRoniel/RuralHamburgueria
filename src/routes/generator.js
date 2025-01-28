@@ -1,3 +1,6 @@
+//Config ENV 
+require('dotenv').config();
+
 const express = require('express');
 const router = express.Router();
 
@@ -6,7 +9,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/details', async (req, res) => {
-  res.redirect('https://chat.whatsapp.com/FAFCH7Vd6vAL4UFTZOXah6');
+  res.redirect(process.env.CASHIER_URI);
 });
 
 module.exports = router;
