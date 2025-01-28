@@ -1,5 +1,5 @@
 <div class="max-w-2xl mx-auto">
-    <form action="/inventory" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <form action="/inventory" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" autocomplete="off">
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
                 Nome
@@ -17,14 +17,27 @@
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="count" type="number" name="count" required>
         </div>
-
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="countMin">
-                Quantidade Minima
+                Estoque Minima (deixe 0 para desativar)
             </label>
             <input
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="countMin" type="number" name="countMin" required>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="category">
+                Metodo de Contagem
+            </label>
+            <select
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="control" name="control" required>
+                <option value="g">PESO</option>
+                <option value="un">UNIDADE</option>
+                <option value="cx">CAIXA</option>
+                <option value="fd">FARDO</option>
+            </select>
         </div>
 
         <div class="mb-4">

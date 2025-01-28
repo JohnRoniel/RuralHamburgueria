@@ -19,14 +19,30 @@
                 id="count" type="number" name="count" required value="<%= inventory.count %>">
         </div>
 
+
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="countMin">
-                Quantidade Minima
+                Estoque Minima (deixe 0 para desativar)
             </label>
             <input
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="countMin" type="number" name="countMin" required value="<%= inventory.countMin %>">
         </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="control">
+                Método de Contagem
+            </label>
+            <select
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="control" name="control" required>
+                <option value="g" <% if (inventory.control==='g' ) { %> selected <% } %>>PESO</option>
+                <option value="un" <% if (inventory.control==='un' ) { %> selected <% } %>>UNIDADE</option>
+                <option value="cx" <% if (inventory.control==='cx' ) { %> selected <% } %>>CAIXA</option>
+                <option value="fd" <% if (inventory.control==='fd' ) { %> selected <% } %>>FARDO</option>
+            </select>
+        </div>
+
 
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="category">

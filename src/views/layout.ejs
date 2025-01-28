@@ -30,26 +30,6 @@
 
         <%- typeof script !=='undefined' ? script : '' %>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const countElement = document.getElementById('count');
-                    const countMinElement = document.getElementById('countMin');
-
-                    if (countElement && countMinElement && parseInt(countElement) <= parseInt(countMinElement)) {
-                        countElement.style.color = 'red';
-                    }
-
-                    document.querySelectorAll('#delete').forEach(function (button) {
-                        button.addEventListener('click', function (event) {
-                            event.preventDefault();
-                            if (confirm('Deseja realmente excluir este item?')) {
-                                window.location.href = button.getAttribute('href');
-                            }
-                        });
-                    });
-                });
-
-            </script>
 </body>
 
 </html>

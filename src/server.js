@@ -47,5 +47,5 @@ app.use('/generator', require('./routes/generator'));
 app.use('/inventory', require('./routes/inventory'));
 
 app.listen(PORT, () => {
-  console.log(`--- Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

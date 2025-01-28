@@ -25,8 +25,8 @@ const inventorySchema = new mongoose.Schema({
         min: 0,
     },
     control: {
-        type: Boolean,
-        default: true,
+        type: String,
+        required: true
     },
     lastUpdated: {
         type: String
