@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Inventory = require('../model/inventoryModel');
 
+/*
+* GET /inventory
+* get all inventory items on render index page
+* @return {Array} inventory
+*/
 router.get('/', async (req, res) => {
   try {
     const inventory = await Inventory.find();
@@ -16,6 +21,10 @@ router.get('/', async (req, res) => {
   }
 });
 
+/*
+* GET /inventory/new
+* render new inventory item page
+*/
 router.get('/new', async (req, res) => {
   try {
     res.render('inventory/new', {
@@ -27,6 +36,32 @@ router.get('/new', async (req, res) => {
   }
 });
 
+/*
+* GET /inventory/getItemsLow
+* get inventory items with low stock
+* @return {Array} inventoryLow
+*/
+router.get('/getItemsLow', async (req, res) => {
+  try {
+    const inventory = await Inventory.find();
+    const inventoryLow = inventory.filter(item => item.count < item.countMin);
+
+    res.render('inventory/index', {
+      inventory: inventoryLow,
+      title: 'Produtos com estoque baixo',
+      layout: 'layout'
+    });
+  } catch (error) {
+    res.status(500).render('error', { error, layout: 'layout' });
+  }
+});
+
+/* 
+* GET /inventory/edit/:id
+* render edit inventory item page
+* @param {String} id
+* @return {Object} inventory
+*/
 router.get('/edit/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -45,6 +80,15 @@ router.get('/edit/:id', async (req, res) => {
   }
 });
 
+/* 
+* POST /inventory
+* create new inventory item
+* @param {String} name
+* @param {String} category
+* @param {Number} count
+* @param {String} control
+* @param {Number} countMin
+*/
 router.post('/', async (req, res) => {
   try {
     const { name, category, count, control, countMin } = req.body;
@@ -64,6 +108,12 @@ router.post('/', async (req, res) => {
   }
 });
 
+/*
+* POST /inventory/getItems
+* get inventory items by category
+* @param {String} category
+* @return {Array} inventory
+*/
 router.post('/getItems', async (req, res) => {
   try {
     const { category } = req.body;
@@ -84,21 +134,11 @@ router.post('/getItems', async (req, res) => {
   }
 });
 
-router.get('/getItemsLow', async (req, res) => {
-  try {
-    const inventory = await Inventory.find();
-    const inventoryLow = inventory.filter(item => item.count < item.countMin);
-
-    res.render('inventory/index', {
-      inventory: inventoryLow,
-      title: 'Produtos com estoque baixo',
-      layout: 'layout'
-    });
-  } catch (error) {
-    res.status(500).render('error', { error, layout: 'layout' });
-  }
-});
-
+/*
+* DELETE /inventory/delete/:id
+* delete inventory item by id
+* @param {String} id
+*/
 router.delete('/delete/:id', async (req, res) => {
   try {
     console.log('ID Recebido:', req.params.id);
@@ -119,7 +159,16 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
-
+/*
+* PUT /inventory/:id
+* update inventory item by id
+* @param {String} id
+* @param {String} name
+* @param {String} category
+* @param {Number} count
+* @param {String} control
+* @param {Number} countMin
+*/
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;

@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 
-// Definindo o esquema para o Inventário
+/*
+    _id: Identificador único do inventário
+    name: Nome do item
+    category: Categoria do item
+    countMin: Quantidade mínima do item
+    count: Quantidade atual do item
+    control: Tipo de controle do item
+    lastUpdated: Data da última alteração
+*/
 const inventorySchema = new mongoose.Schema({
     _id: {
         type: mongoose.SchemaTypes.ObjectId,
