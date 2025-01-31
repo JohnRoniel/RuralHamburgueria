@@ -73,7 +73,10 @@
                                     <% } %>
                                         <span id="count">
                                             <%= product.count %>
-                                                <%= product.control %>
+                                                <!-- Se o control for "un" ocultar -->
+                                                <% if (product.control !=='un' ) { %>
+                                                    <%= product.control %>
+                                                        <% } %>
                                         </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
