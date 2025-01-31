@@ -37,6 +37,31 @@ router.get('/new', async (req, res) => {
 });
 
 /*
+* GET /inventory/getItemsAlfabetic
+* get inventory items in alphabetical order
+* @return {Array} inventoryAlfabetic
+*/
+
+router.get('/getItemsAlfabetic', async (req, res) => {
+  try {
+    const inventory = await Inventory.find();
+    const inventoryAlfabetic = inventory.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+
+    res.render('inventory/index', {
+      inventory: inventoryAlfabetic,
+      title: 'Produtos em ordem alfabética',
+      layout: 'layout'
+    });
+  } catch (error) {
+    res.status(500).render('error', { error, layout: 'layout' });
+  }
+});
+
+/*
 * GET /inventory/getItemsLow
 * get inventory items with low stock
 * @return {Array} inventoryLow
@@ -91,13 +116,14 @@ router.get('/edit/:id', async (req, res) => {
 */
 router.post('/', async (req, res) => {
   try {
-    const { name, category, count, control, countMin } = req.body;
+    const { name, category, count, control, countMin, controlState } = req.body;
 
     const newInventory = new Inventory({
       name,
       category,
       count,
       control,
+      controlState,
       countMin
     });
 
@@ -172,11 +198,11 @@ router.delete('/delete/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, category, count, control, countMin } = req.body;
+    const { name, category, count, control, countMin, controlState } = req.body;
 
     const updatedItem = await Inventory.findByIdAndUpdate(
       id,
-      { name, category, count, control, countMin },
+      { name, category, count, control, countMin, controlState },
       { new: true, runValidators: true }
     );
 

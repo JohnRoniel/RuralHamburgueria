@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
     countMin: Quantidade mínima do item
     count: Quantidade atual do item
     control: Tipo de controle do item
+    controlState: Estado do estoque do item
     lastUpdated: Data da última alteração
 */
 const inventorySchema = new mongoose.Schema({
@@ -36,6 +37,9 @@ const inventorySchema = new mongoose.Schema({
     control: {
         type: String,
         required: true
+    },
+    controlState: {
+        type: String
     },
     lastUpdated: {
         type: String

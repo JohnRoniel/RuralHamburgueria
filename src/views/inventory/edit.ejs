@@ -30,19 +30,31 @@
         </div>
 
         <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="control">
-                Método de Contagem
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="category">
+                Metodo de Contagem
             </label>
             <select
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="control" name="control" required>
-                <option value="g" <% if (inventory.control==='g' ) { %> selected <% } %>>PESO</option>
-                <option value="un" <% if (inventory.control==='un' ) { %> selected <% } %>>UNIDADE</option>
-                <option value="cx" <% if (inventory.control==='cx' ) { %> selected <% } %>>CAIXA</option>
-                <option value="fd" <% if (inventory.control==='fd' ) { %> selected <% } %>>FARDO</option>
+                <option value="g">PESO</option>
+                <option value="un">UNIDADE</option>
+                <option value="cx">CAIXA</option>
+                <option value="fd">FARDO</option>
+                <option value="st">ESTADO</option>
             </select>
         </div>
 
+        <div class="mb-4" id="controlStateEl" style="display: none;">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="category">
+                ESTADO
+            </label>
+            <select
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="controlState" name="controlState" required>
+                <option value="REGULAR" selected>REGULAR</option>
+                <option value="BAIXO">BAIXO</option>
+            </select>
+        </div>
 
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="category">
@@ -67,3 +79,14 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('control').addEventListener('change', function () {
+        if (this.value === 'st') {
+            document.getElementById('controlStateEl').style.display = 'block';
+        } else {
+            document.getElementById('controlStateEl').style.display = 'none';
+        }
+    });
+    document.getElementById('control').dispatchEvent(new Event('change'));
+</script>
