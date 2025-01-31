@@ -46,15 +46,20 @@ const inventorySchema = new mongoose.Schema({
     },
 });
 
-// Função para formatar a data no formato "00:00 01/01/2025"
+// Função para formatar a data no formato "00:00 01/01/2025" com fuso horário de São Paulo
 function formatDate(date) {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-
-    return `${day}/${month}/${year} às ${hours}:${minutes}`;
+    const options = {
+        timeZone: 'America/Sao_Paulo',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    };
+    const formatter = new Intl.DateTimeFormat('pt-BR', options);
+    const formattedDate = formatter.format(date).replace(',', ' às');
+    return formattedDate
 }
 
 // Hook para atualizar a data da última alteração
@@ -63,7 +68,6 @@ inventorySchema.pre('save', function (next) {
     this.lastUpdated = formatDate(currentDate); // Atualiza o campo lastUpdated com a data formatada
     next();
 });
-
 
 // Criando o modelo do Inventário
 const Inventory = mongoose.model('Inventory', inventorySchema);
