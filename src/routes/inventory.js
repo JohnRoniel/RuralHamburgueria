@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Inventory = require('../model/inventoryModel');
+const Inventory = require('../model/InventoryModel');
 
 /*
 * GET /inventory

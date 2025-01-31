@@ -25,7 +25,8 @@ const inventorySchema = new mongoose.Schema({
     countMin: {
         type: Number,
         min: 0,
-        required: true,
+        default: 0,
+        required: false,
     },
     count: {
         type: Number,
