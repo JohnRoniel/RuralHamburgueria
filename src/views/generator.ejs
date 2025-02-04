@@ -30,7 +30,7 @@
     </div>
 
     <div class="mb-4">
-        <label for="pedidosCanceladoCheckbox" class="block mb-1">Houve pedidos para Cancelados?</label>
+        <label for="pedidosCanceladoCheckbox" class="block mb-1">Houve pedidos Cancelados?</label>
         <input type="checkbox" id="pedidosCanceladosCheckbox" onclick="toggleInput('pedidosCancelados')">
         <input type="number" id="pedidosCancelados" placeholder="Pedidos para Cancelados"
             class="hidden mb-2 p-1 border">
@@ -53,8 +53,9 @@
     <input type="text" id="valorOnline" placeholder="Valor em pagamento online (iFood)" oninput="formatarMoeda(this)"
         class="mb-2 p-1 border" required>
 
-    <button onclick="gerarRelatorio()" class="mt-4 p-2 bg-blue-500 text-white rounded">Gerar Relatório</button>
 </div>
+<button onclick="gerarRelatorio()" class="mt-4 p-2 bg-blue-500 text-white rounded">Gerar Relatório</button>
+
 
 <blockquote id="relatorioMovimento" class="border-l-4 border-gray-300 pl-4 italic bg-gray-100 p-4 mt-4">
 </blockquote>

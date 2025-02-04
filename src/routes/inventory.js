@@ -69,7 +69,7 @@ router.get('/getItemsAlfabetic', async (req, res) => {
 router.get('/getItemsLow', async (req, res) => {
   try {
     const inventory = await Inventory.find();
-    const inventoryLow = inventory.filter(item => item.count < item.countMin || item.controlState == 'LOW');
+    const inventoryLow = inventory.filter(item => item.count < item.countMin || item.controlState == 'BAIXO');
 
     res.render('inventory/index', {
       inventory: inventoryLow,

@@ -78,7 +78,7 @@
                                     </svg>
                                     <% } %>
                                         <span id="count">
-                                            <% if (!product.controlState) { %>
+                                            <% if (product.controlState=='DISABLE' ) { %>
                                                 <%= product.count %>
                                                     <% if (product.control !=='un' ) { %>
                                                         <%= product.control %>
