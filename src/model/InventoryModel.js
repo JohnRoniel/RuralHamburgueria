@@ -39,7 +39,8 @@ const inventorySchema = new mongoose.Schema({
         required: true
     },
     controlState: {
-        type: String
+        type: String,
+        default: ''
     },
     lastUpdated: {
         type: String
