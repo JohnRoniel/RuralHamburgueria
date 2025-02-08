@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Inventory = require('../model/InventoryModel');
+const { formatDateString } = require('../middlewares/formatData');
 
 /*
 * GET /inventory
@@ -117,6 +118,7 @@ router.get('/edit/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { name, category, count, control, countMin, controlState } = req.body;
+    const dateString = await formatDateString(new Date());
 
     const newInventory = new Inventory({
       name,
@@ -124,7 +126,8 @@ router.post('/', async (req, res) => {
       count,
       control,
       controlState,
-      countMin
+      countMin,
+      lastUpdated: dateString
     });
 
     await newInventory.save();
@@ -199,10 +202,11 @@ router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { name, category, count, control, countMin, controlState } = req.body;
+    const dateString = await formatDateString(new Date());
 
     const updatedItem = await Inventory.findByIdAndUpdate(
       id,
-      { name, category, count, control, countMin, controlState },
+      { name, category, count, control, countMin, controlState, lastUpdated: dateString },
       { new: true, runValidators: true }
     );
 
